@@ -55,7 +55,7 @@ from MakeblockSerial.orion import *
 #           servo-mointed distance sensors
 #           sensors pointed at ceiling to get 3d hints
 
-globalSpeed = 100
+globalSpeed = 40
 
 # Turn on logging
 olog = logging.getLogger('orion')
@@ -76,12 +76,12 @@ orionBoard.motor1.addDevice(rightMotor)
 orionBoard.motor2.addDevice(leftMotor)
 
 def forward(speed):
-    leftMotor.run(-1*speed)
-    rightMotor.run(speed)  
-
-def backward(speed):
     leftMotor.run(speed)
     rightMotor.run(-1*speed)  
+
+def backward(speed):
+    leftMotor.run(-1*speed)
+    rightMotor.run(speed)  
 
 def turnLeft(speed):
     leftMotor.run(-1*speed)
