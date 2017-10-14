@@ -1,0 +1,108 @@
+
+It might be easiest to just use makeblock-serial-master
+https://github.com/jafletch/makeblock-serial
+http://forum.makeblock.com/t/python-libraries-for-using-orion-via-serial/3796
+
+Tools
+
+Splitting the serial port - Fabula Tech
+https://www.fabulatech.com/serial-port-splitter.html
+
+Monitoring the serial port - Eltima
+https://www.eltima.com/products/serial-port-monitor/
+	Their serial splitter does NOT work
+	Real Term also does a decent job of monitoring
+	VS/Visual Micro don't show hex serial data
+
+How to send Hex Text on Serial Port
+https://www.youtube.com/watch?v=njYlklOlh6g
+	Real Term
+	https://sourceforge.net/projects/realterm/
+
+
+ACTIONS
+------------------
+#define GET 1
+#define RUN 2
+#define RESET 4
+#define START 5
+
+DEVICES
+-----------------------
+
+#define VERSION 0
+#define ULTRASONIC_SENSOR 1
+#define TEMPERATURE_SENSOR 2
+#define LIGHT_SENSOR 3
+#define POTENTIONMETER 4
+#define JOYSTICK 5
+#define GYRO 6
+#define SOUND_SENSOR 7
+#define RGBLED 8
+#define SEVSEG 9
+#define MOTOR 10   // 0a
+#define SERVO 11   // 0b
+#define ENCODER 12 // 0c
+#define IR 13  // 0d
+#define IRREMOTE 14  // 0e
+#define PIRMOTION 15  // 0f
+#define INFRARED 16  // 10
+#define LINEFOLLOWER 17  // 11
+#define IRREMOTECODE 18  // 12
+#define SHUTTER 20  // 14
+#define LIMITSWITCH 21  //  15
+#define BUTTON 22   //16
+#define HUMITURE 23   // 17
+#define FLAMESENSOR 24  // 18
+#define GASSENSOR 25  // 19
+#define COMPASS 26  // 1A
+#define DIGITAL 30  // 1E
+#define ANALOG 31  // 1F
+#define PWM 32  // 20
+#define SERVO_PIN 33  // 21
+#define TONE 34  //22
+#define PULSEIN 37  // 25
+#define ULTRASONIC_ARDUINO 36   // 24
+#define STEPPER 40  // 28
+#define LEDMATRIX 41   // 0x29
+#define TIMER 50  // 0x32
+#define TOUCH_SENSOR 51  //  0x33
+
+
+All start with something like:  
+4722 12/10/2017 18:00:19 IRP_MJ_WRITE DOWN 
+
+and end with something like:
+ÿU....... 9 9 COM11
+
+The payload is of this form:
+								ff 55 len idx action device port  slot  data a
+								0  1  2   3   4      5      6     7     8
+
+On Open mBlock:					ff 55 02  00  04
+
+Set Motor 1 Speed to Zero		ff 55 06  00  02     0a     09     00 00  //  6 chars, 0-indexed, action=2(RUN), device=0a(a motor), port=09, (NO SLOT?), data=00 00 (speed = 00 00)
+		Send HEX through RealTerm:  0xff 0x55 0x06 0x00 0x02 0x0a 0x09 0x00 0x00
+Set Motor 1 speed to 100		ff 55 06  00  02     0a     09     64 00      // same, but data=64 00(speed=100)
+		Send HEX through RealTerm:  0xff 0x55 06 0x00 0x02 0x0a 0x09 0x64 0x00
+Set Motor 1 speed to -100		ff 55 06  00  02     0a     09     9c ff      // same, but data=9cff(speed = -100).  This is in two's complement on LSB MSB form  
+Set Motor 1 speed to 127		ff 55 06  00  02     0a     09     7f 00    
+Set Motor 1 speed to -127		ff 55 06  00  02     0a     09     81 ff   
+Set Motor 1 speed to 255		ff 55 06  00  02     0a     09     ff 00   
+Set Motor 1 speed to -255		ff 55 06  00  02     0a     09     01 ff    
+Set Motor 2 speed to 255		ff 55 06  00  02     0a     0a     ff 00     follows pattern above, but port is is now 0a 
+Set Motor 2 speed to -255		ff 55 06  00  02     0a     0a     01 ff  
+
+
+Read Ultrasonic, port 8(0x07)			ff 55 04  00  01     01     07  //  action=0x01(GET), device=0x01(ULTRASONIC SENSOR), port=0x07 (8) 
+		Send HEX through RealTerm:  0xff 0x55 0x04 0x00 0x01 001 0x06
+Answers:
+								Head  idx  0x02		float value     println
+								ff 55 00   02		47 58 26 42     0d 0a     // 41.586                       
+								ff 55 00   02		00 00 c8 43     0d 0a     // 400 (probably the wall)                     
+								ff 55 00   02		84 e5 7e 41     0d 0a     // 15.931 (cm)       
+								ff 55 00   02		58 ee 45 42     0d 0a     // 49.483  (cm)       
+
+Read Line Follower, port 3
+
+
