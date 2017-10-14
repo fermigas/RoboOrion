@@ -115,8 +115,9 @@ try:
             retreatFromObstacle()
             randomlyturnLeftOrRight()
 
-        time.sleep(0.5)
+        time.sleep(0.1)
 
 finally:
     stopWithDelay(0.1)
+    orionBoard.__serialPort.close()
 

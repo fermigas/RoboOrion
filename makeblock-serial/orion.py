@@ -6,6 +6,7 @@ import logging
 from packets import responsepacket
 import serial
 import threading
+import sys
 
 log = logging.getLogger("orion")
 
@@ -34,8 +35,26 @@ class board():
 
         self.__ports = ports
 
-#        self.__serialPort = serialPort or serial.Serial('/dev/ttyAMA0', 115200)
-        self.__serialPort = serialPort or serial.Serial('COM11', 115200)
+        # check whether we are running on windows, mac or a linux flavor and chose the correct serial port
+        # this is mainly to avoid having to comment/uncomment each time we move between platforms
+        # we should probably get more fancy about this in the future: 
+        #       1) moving this to the caller or check to see of we have an orionfirmware out there to control
+        #       2) supporting bluetooth
+
+        whichPort = ''
+        if sys.platform == 'win32':   # works on 64-bit systems, too, at least on python27
+            whichPort = 'COM11'
+        elif sys.platform == 'linux2':  # Raspberry or linux box  
+            whichPort = '/dev/ttyUSB0'
+        elif sys.platform == 'darwin':  # Mac 
+            whichPort = '/dev/ttyUSB0'
+
+        try:
+            self.__serialPort = serialPort or serial.Serial(whichPort, 115200)
+        except serial.serialutil.SerialException:
+            log.error(whichPort + '  is in use')
+
+        
         log.info("Begin serial port read")
         th = serialReader(self.__serialPort, self.handleResponse)
         th.setDaemon(True)
