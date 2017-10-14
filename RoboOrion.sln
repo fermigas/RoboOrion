@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoboOrion", "RoboOrion\RoboOrion.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "makeblock-serial", "makeblock-serial-master\src\Python27\makeblock-serial.pyproj", "{45092C06-6933-4043-9B26-DC6D96BDB93E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OrionFirmware", "OrionFirmware\OrionFirmware.vcxproj", "{079E133B-7DD1-4528-AB41-986DF9C2478E}"
 EndProject
 Global
@@ -23,10 +21,6 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|Any CPU.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
-		{45092C06-6933-4043-9B26-DC6D96BDB93E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45092C06-6933-4043-9B26-DC6D96BDB93E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{45092C06-6933-4043-9B26-DC6D96BDB93E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45092C06-6933-4043-9B26-DC6D96BDB93E}.Release|x86.ActiveCfg = Release|Any CPU
 		{079E133B-7DD1-4528-AB41-986DF9C2478E}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{079E133B-7DD1-4528-AB41-986DF9C2478E}.Debug|x86.ActiveCfg = Debug|Win32
 		{079E133B-7DD1-4528-AB41-986DF9C2478E}.Debug|x86.Build.0 = Debug|Win32
