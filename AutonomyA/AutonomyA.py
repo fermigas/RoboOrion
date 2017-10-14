@@ -3,7 +3,14 @@ import time
 import random 
 import sys
 
-sys.path.append('/Users/jon/Dropbox/robots/Orion/RoboOrion')
+
+if sys.platform == 'win32':   # works on 64-bit systems, too, at least on python27
+    sys.path.append('/Users/jon/Dropbox/robots/Orion/RoboOrion')
+elif sys.platform == 'linux2':  # Raspberry or linux box  
+    sys.path.append('~/robotics/RoboOrion')
+elif sys.platform == 'darwin':  # Mac 
+    sys.path.append('~/robotics/RoboOrion')
+
 
 from MakeblockSerial.config import slot
 from MakeblockSerial.orion import *

@@ -22,8 +22,8 @@
     <Compile Include="AutonomyA.py" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\makeblock-serial\makeblock-serial.pyproj">
-      <Name>makeblock-serial</Name>
+    <ProjectReference Include="..\MakeblockSerial\makeblockserial.pyproj">
+      <Name>makeblockserial</Name>
       <Project>{e504b454-9ded-4d59-a4f4-28e3be4c2871}</Project>
       <Private>True</Private>
     </ProjectReference>
