@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoboOrion", "RoboOrion\Robo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OrionFirmware", "OrionFirmware\OrionFirmware.vcxproj", "{079E133B-7DD1-4528-AB41-986DF9C2478E}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "makeblock-serial", "makeblock-serial\makeblock-serial.pyproj", "{E504B454-9DED-4D59-A4F4-28E3BE4C2871}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "AutonomyA", "AutonomyA\AutonomyA.pyproj", "{48ED421E-9C1C-4F33-900A-02D780508BF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{079E133B-7DD1-4528-AB41-986DF9C2478E}.Release|Any CPU.ActiveCfg = Release|Win32
 		{079E133B-7DD1-4528-AB41-986DF9C2478E}.Release|x86.ActiveCfg = Release|Win32
 		{079E133B-7DD1-4528-AB41-986DF9C2478E}.Release|x86.Build.0 = Release|Win32
+		{E504B454-9DED-4D59-A4F4-28E3BE4C2871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E504B454-9DED-4D59-A4F4-28E3BE4C2871}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E504B454-9DED-4D59-A4F4-28E3BE4C2871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E504B454-9DED-4D59-A4F4-28E3BE4C2871}.Release|x86.ActiveCfg = Release|Any CPU
+		{48ED421E-9C1C-4F33-900A-02D780508BF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48ED421E-9C1C-4F33-900A-02D780508BF9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{48ED421E-9C1C-4F33-900A-02D780508BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48ED421E-9C1C-4F33-900A-02D780508BF9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
