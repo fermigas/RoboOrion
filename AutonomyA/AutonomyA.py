@@ -108,6 +108,8 @@ def randomlyturnLeftOrRight():
         turnLeft(globalSpeed)
     else:
         turnRight(globalSpeed)
+    time.sleep(0.3)
+    stopWithDelay(0.1)
 
 lastDistance = us.latestValue()
 
@@ -117,7 +119,7 @@ try:
         us.requestValue()
         curDistance = us.latestValue()
         if curDistance != lastDistance:
-            print(curDistance)
+            print('current: ' + curDistance + ' last: ' + lastDistance )
 
         forward(globalSpeed) 
 
