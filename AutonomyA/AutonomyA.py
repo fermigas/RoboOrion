@@ -9,7 +9,7 @@ if sys.platform == 'win32':   # works on 64-bit systems, too, at least on python
 elif sys.platform == 'linux2':  # Raspberry or linux box  
     sys.path.append('/home/jon/robotics/RoboOrion')
 elif sys.platform == 'darwin':  # Mac 
-    sys.path.append('/home/jon/robotics/RoboOrion')
+    sys.path.append('/Users/jonteets/robotics/RoboOrion')
 
 
 from MakeblockSerial.config import slot
