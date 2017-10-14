@@ -5,6 +5,7 @@ import sys
 import time
 import random 
 
+
 #   Get basic autonomy program working
 #   Build towwards SLAM system until we reach limits
 #       computational power
@@ -117,7 +118,10 @@ try:
 
         time.sleep(0.1)
 
+except KeyboardInterrupt:
+    pass
+
 finally:
     stopWithDelay(0.1)
-    orionBoard.__serialPort.close()
+    orionBoard.closeSerial()    
 

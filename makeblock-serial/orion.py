@@ -7,22 +7,29 @@ from packets import responsepacket
 import serial
 import threading
 import sys
+import time
 
 log = logging.getLogger("orion")
 
 class serialReader(threading.Thread):
         
+    __doRead = True
+
     def __init__(self, serialPort, dataHandler):
         threading.Thread.__init__(self)
         self.dataHandler = dataHandler
         self.serialPort = serialPort
     
     def run(self):
-        while True:
+        while self.__doRead:
             line = self.serialPort.readline()
             lineMap = map(ord, line)
             log.debug('Data received: ' + str(lineMap))
             self.dataHandler(lineMap)
+
+    def stop(self):
+        self.__doRead = False
+
 
 class board():
     __metaclass__ = ABCMeta
@@ -56,9 +63,9 @@ class board():
 
         
         log.info("Begin serial port read")
-        th = serialReader(self.__serialPort, self.handleResponse)
-        th.setDaemon(True)
-        th.start()
+        self.__th = serialReader(self.__serialPort, self.handleResponse)
+        self.__th.setDaemon(True)   # deamon should end when main thread ends
+        self.__th.start()
 
     def handleResponse(self, byts):
         response = responsepacket(byts)
@@ -81,6 +88,13 @@ class board():
 
     def sendRequest(self, requestPacket):
         self.__serialPort.write(requestPacket.toByteArray())
+
+
+    def closeSerial(self):
+        self.__th.stop()
+        time.sleep(0.1)  # give stream a chance to end
+        self.__serialPort.close()
+
 
 class orion(board):
     
@@ -109,6 +123,10 @@ class orion(board):
                 }
 
         super(orion, self).__init__(ports, serialPort)
+
+    def closeSerial(self):
+        super(orion, self).closeSerial()
+
 
 class port(object):
     
