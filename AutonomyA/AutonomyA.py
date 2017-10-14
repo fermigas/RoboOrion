@@ -1,10 +1,12 @@
-from config import slot
 import logging
-from orion import *
-import sys
 import time
 import random 
+import sys
 
+sys.path.append('/Users/jon/Dropbox/robots/Orion/RoboOrion')
+
+from MakeblockSerial.config import slot
+from MakeblockSerial.orion import *
 
 #   Get basic autonomy program working
 #   Build towwards SLAM system until we reach limits
