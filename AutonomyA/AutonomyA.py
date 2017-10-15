@@ -40,7 +40,7 @@ from MakeblockSerial.orion import *
 #           probably needs camera
 
 #  doesn't have an exploration plan of attack, so can't use historical
-#  path to inform where ti will go next  (SLAM)
+#  path to inform where it will go next  (SLAM)
 #       Algorithms for mapping & exploration
 #       compass & internal gps
 #      
@@ -55,7 +55,22 @@ from MakeblockSerial.orion import *
 #           servo-mointed distance sensors
 #           sensors pointed at ceiling to get 3d hints
 
-globalSpeed = 40
+#  start with a calibration phase
+#      learn real-world anglualr speed:
+#        need to know the speed at which there's an accurate pivot (on different surfaces)
+#        turn around a few times in both directions at progressively higher speeds 
+#           easiest with a compass 
+#           a servo-mounted ultrasound could map distances through an angle, then turn and compare
+#               multiple servo-mounted ultrasound sensors might do a really good job
+#           try to get back reliably to a given place
+#        other cues:  
+#           ceiling ir, floor ir, wall ir, photo receptors, color sensors, encoders
+#           bluetooth & wireless RSSI, sound
+#       
+#      learn real-world linear speeds
+
+
+globalSpeed = 20
 
 # Turn on logging
 olog = logging.getLogger('orion')
@@ -96,8 +111,8 @@ def stopWithDelay(delay):
     leftMotor.stop()
     time.sleep(delay)
 
-# with encoders, this might not need to be time-based
-def retreatFromObstacle():
+# with encoders, this will not need to be time-based
+def retreatFromObstacle(cm = None):
         stopWithDelay(0.5)
         backward(globalSpeed)
         time.sleep(0.3)
@@ -111,23 +126,39 @@ def randomlyturnLeftOrRight():
     time.sleep(0.3)
     stopWithDelay(0.1)
 
-lastDistance = us.latestValue()
+# once we have encoders and a compass we should be able to be more precise about this
+def turnAwayFromObstacle(deg = None):   
+    randomlyturnLeftOrRight()  # for now we chose a direction randomly
+
+start = time.clock()
+
+curDistance = us.latestValue()
+while curDistance == -1:
+    us.requestValue()
+    curDistance = us.latestValue()
+    print(time.clock()-start, " priming   " )
+    time.sleep(0.1)
 
 try:
 
     while True:
+
+        if curDistance < 30:
+            retreatFromObstacle()
+            print(time.clock() - start, "  retreating  ", curDistance)
+
+        while curDistance < 30.0:    # 30 cm           
+            turnAwayFromObstacle()
+            us.requestValue()
+            curDistance = us.latestValue()
+            print(time.clock() - start, "  turning  ", curDistance)
+
+        forward(globalSpeed)
+        time.sleep(0.05)
         us.requestValue()
         curDistance = us.latestValue()
-        if curDistance != lastDistance:
-            print('current: ' + curDistance + ' last: ' + lastDistance )
 
-        forward(globalSpeed) 
-
-        if curDistance < 25.0:
-            retreatFromObstacle()
-            randomlyturnLeftOrRight()
-
-        time.sleep(0.1)
+        print(time.clock() - start, "   forward   ",  curDistance)
 
 except KeyboardInterrupt:
     pass
