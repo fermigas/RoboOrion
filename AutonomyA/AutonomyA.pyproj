@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{48ed421e-9c1c-4f33-900a-02d780508bf9}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>AutonomyA.py</StartupFile>
+    <StartupFile>AutoB.py</StartupFile>
     <SearchPath>..\makeblock-serial</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -19,6 +19,9 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutoB.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AutonomyA.py" />
   </ItemGroup>
   <ItemGroup>
