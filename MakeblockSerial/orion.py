@@ -24,7 +24,8 @@ class serialReader(threading.Thread):
         while self.__doRead:
             line = self.serialPort.readline()
             lineMap = map(ord, line)
-            log.debug('Data received: ' + str(lineMap))
+            if str(lineMap) != '[255, 85, 13, 10]' :    # don't show acks (without data)
+                log.debug('Data received: ' +  str(lineMap))
             self.dataHandler(lineMap)
 
     def stop(self):
@@ -169,7 +170,9 @@ class port(object):
                 return d
 
     def sendRequest(self, requestPacket):
-        log.debug('Sending request for port ' + str(self.id))
+        if self.id not in [9, 10]:  #  don't log motors for now
+            log.debug('Sending request for port ' + str(self.id) + ' '  + 
+                  str(map(ord, str(requestPacket.toByteArray()))) )
         self.__board.sendRequest(requestPacket)
 
 class BoardError(Exception):

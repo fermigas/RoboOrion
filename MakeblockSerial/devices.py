@@ -157,7 +157,7 @@ class soundSensor(simpledevice, readabledevice):
             raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToFloat(data, 0)
 
-class ultrasonicSensor(simpledevice, readabledevice):
+class leftUltrasonicSensor(simpledevice, readabledevice):
 
     def __init__(self):
         simpledevice.__init__(self, device.ULTRASONIC_SENSOR)
@@ -165,8 +165,36 @@ class ultrasonicSensor(simpledevice, readabledevice):
 
     def parseData(self, data):
         if len(data) != 4:
-            raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
-        self._value = self.bytesToFloat(data, 0)
+            print("Expected 4 bytes of data returned. Got: " + str(len(data)))
+           # raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
+        else:
+            self._value = self.bytesToFloat(data, 0)
+
+class centerUltrasonicSensor(simpledevice, readabledevice):
+
+    def __init__(self):
+        simpledevice.__init__(self, device.ULTRASONIC_SENSOR)
+        readabledevice.__init__(self)
+
+    def parseData(self, data):
+        if len(data) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(data)))
+           # raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
+        else:
+            self._value = self.bytesToFloat(data, 0)
+
+class rightUltrasonicSensor(simpledevice, readabledevice):
+
+    def __init__(self):
+        simpledevice.__init__(self, device.ULTRASONIC_SENSOR)
+        readabledevice.__init__(self)
+
+    def parseData(self, data):
+        if len(data) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(data)))
+           # raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
+        else:
+            self._value = self.bytesToFloat(data, 0)
 
 class dcmotor(simpledevice):
 

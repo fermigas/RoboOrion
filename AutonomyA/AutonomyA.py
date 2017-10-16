@@ -74,15 +74,22 @@ globalSpeed = 20
 
 # Turn on logging
 olog = logging.getLogger('orion')
-olog.setLevel(logging.INFO)
+#olog.setLevel(logging.INFO)
+olog.setLevel(logging.DEBUG)
 olog.addHandler(logging.StreamHandler(sys.stdout))
 
 # Create a board
 orionBoard = orion()
 
 # Create sensors
-us = ultrasonicSensor()
-orionBoard.port8.addDevice(us)
+us_center = centerUltrasonicSensor()
+orionBoard.port3.addDevice(us_center)
+
+us_right = rightUltrasonicSensor()
+orionBoard.port4.addDevice(us_right)
+
+us_left = leftUltrasonicSensor()
+orionBoard.port8.addDevice(us_left)
 
 # Create actuators
 rightMotor = dcmotor()
@@ -132,33 +139,80 @@ def turnAwayFromObstacle(deg = None):
 
 start = time.clock()
 
-curDistance = us.latestValue()
-while curDistance == -1:
-    us.requestValue()
-    curDistance = us.latestValue()
-    print(time.clock()-start, " priming   " )
+centerDistance = us_center.latestValue()
+rightDistance = us_right.latestValue()
+leftDistance = us_left.latestValue()
+
+while centerDistance == -1 or rightDistance == -1 or leftDistance == -1 :
+    us_center.requestValue()
+    centerDistance = us_center.latestValue()
     time.sleep(0.1)
+    us_right.requestValue()
+    rightDistance = us_right.latestValue()
+    time.sleep(0.1)
+    us_left.requestValue()
+    leftDistance = us_left.latestValue()
+    time.sleep(0.1)
+    print(time.clock()-start, " priming   ",  centerDistance, rightDistance, leftDistance )
+    time.sleep(0.1)
+
+def getUltrasoundValues():
+
+    lastValue = centerDistance = us_center.latestValue()
+    us_center.requestValue()
+    counter = 0
+    while lastValue == centerDistance and centerDistance != 400.0:
+        centerDistance = us_center.latestValue()
+        time.sleep(0.05)
+        log.debug("waiting on center value" + '  ' +  str(lastValue) + '  ' +   str(centerDistance))
+        #  put a counter here;  after 5 tries, poll for another value
+        if counter > 4:
+            us_center.requestValue()
+        counter = counter + 1
+
+
+    lastValue = rightDistance = us_right.latestValue()
+    us_right.requestValue()
+    counter = 0
+    while lastValue == rightDistance and rightDistance != 400.0:
+        rightDistance = us_right.latestValue()
+        time.sleep(0.05)
+        log.debug("waiting on right value" + '  ' +   str(lastValue) + '  ' +   str(rightDistance))
+        if counter > 4:
+            us_right.requestValue()
+        counter = counter + 1
+
+
+    lastValue = leftDistance = us_left.latestValue()
+    us_left.requestValue()
+    counter = 0
+    while lastValue == leftDistance and leftDistance != 400.0:
+        leftDistance = us_left.latestValue()
+        time.sleep(0.05)
+        log.debug("waiting on left value" + '  ' +   str(lastValue) + '  ' +  str( leftDistance))
+        if counter > 4:
+            us_left.requestValue()
+        counter = counter + 1
+
+    return centerDistance, rightDistance, leftDistance
 
 try:
 
     while True:
 
-        if curDistance < 30:
+        if centerDistance < 30 or rightDistance < 30 or leftDistance < 30  :
             retreatFromObstacle()
-            print(time.clock() - start, "  retreating  ", curDistance)
+            print(time.clock() - start, "  retreating  ", centerDistance, rightDistance, leftDistance )
 
-        while curDistance < 30.0:    # 30 cm           
+        while centerDistance < 30 or rightDistance < 30 or leftDistance < 30:    # 30 cm           
             turnAwayFromObstacle()
-            us.requestValue()
-            curDistance = us.latestValue()
-            print(time.clock() - start, "  turning  ", curDistance)
+            centerDistance, rightDistance, leftDistance = getUltrasoundValues()
+            print(time.clock() - start, "  turning  ", centerDistance, rightDistance, leftDistance)
 
         forward(globalSpeed)
         time.sleep(0.05)
-        us.requestValue()
-        curDistance = us.latestValue()
-
-        print(time.clock() - start, "   forward   ",  curDistance)
+        centerDistance, rightDistance, leftDistance = getUltrasoundValues()        
+        print(time.clock() - start, "   forward   ",  centerDistance, rightDistance, leftDistance)
 
 except KeyboardInterrupt:
     pass
