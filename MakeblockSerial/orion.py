@@ -83,6 +83,8 @@ class board():
         responsePort = self.__ports[portNumber]
         if responsePort.occupied:
             log.debug('Sending packet to port %s, slot %s' % (str(portNumber), str(slotNumber)))
+            if response.hasMillis == True:
+                responsePort.getDevice(slotNumber).parseMillis(response.millis)
             responsePort.getDevice(slotNumber).parseData(response.data)
         else:
             log.error('No handler found for data at port %s, slot %s' % (str(portNumber), str(slotNumber)))

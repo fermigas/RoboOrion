@@ -40,6 +40,7 @@ class readabledevice():
 
     def __init__(self):
         self._value = -1
+        self._millis = -1
 
     def requestValue(self):
         slot = None
@@ -49,9 +50,16 @@ class readabledevice():
         
     def latestValue(self):
         return self._value
+
+    def latestValueAndTime(self):
+        return self._value, self._millis
     
     @abstractmethod
     def parseData(self, data):
+        return None
+
+    @abstractmethod
+    def parseMillis(self, data):
         return None
 
 class lightSensor(simpledevice, readabledevice):
@@ -64,6 +72,13 @@ class lightSensor(simpledevice, readabledevice):
         if len(data) != 4:
             raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToFloat(data, 0)
+
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
 
 class lightAndGrayscaleSensor(simpledevice, readabledevice):
 
@@ -82,6 +97,14 @@ class lightAndGrayscaleSensor(simpledevice, readabledevice):
             raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToFloat(data, 0)
 
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
+
 class lineFollower(simpledevice, readabledevice):
 
     def __init__(self):
@@ -92,6 +115,14 @@ class lineFollower(simpledevice, readabledevice):
         if len(data) != 4:
             raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToFloat(data, 0)
+
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
 
 class pirMotionSensor(simpledevice, readabledevice):
 
@@ -113,6 +144,14 @@ class pirMotionSensor(simpledevice, readabledevice):
             raise PacketError("Expected 1 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToBool(data, 0)
 
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
+
 class potentiometer(simpledevice, readabledevice):
 
     def __init__(self):
@@ -123,6 +162,14 @@ class potentiometer(simpledevice, readabledevice):
         if len(data) != 4:
             raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToFloat(data, 0)
+
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
 
 class sevenSegmentDisplay(simpledevice):
 
@@ -146,6 +193,14 @@ class temperatureSensor(slotteddevice, readabledevice):
             raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToFloat(data, 0)
 
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
+
 class soundSensor(simpledevice, readabledevice):
 
     def __init__(self):
@@ -156,6 +211,14 @@ class soundSensor(simpledevice, readabledevice):
         if len(data) != 4:
             raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         self._value = self.bytesToFloat(data, 0)
+
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
 
 class leftUltrasonicSensor(simpledevice, readabledevice):
 
@@ -170,6 +233,13 @@ class leftUltrasonicSensor(simpledevice, readabledevice):
         else:
             self._value = self.bytesToFloat(data, 0)
 
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
 class centerUltrasonicSensor(simpledevice, readabledevice):
 
     def __init__(self):
@@ -182,6 +252,15 @@ class centerUltrasonicSensor(simpledevice, readabledevice):
            # raise PacketError("Expected 4 bytes of data returned. Got: " + str(len(data)))
         else:
             self._value = self.bytesToFloat(data, 0)
+
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
+
 
 class rightUltrasonicSensor(simpledevice, readabledevice):
 
@@ -196,6 +275,13 @@ class rightUltrasonicSensor(simpledevice, readabledevice):
         else:
             self._value = self.bytesToFloat(data, 0)
 
+    def parseMillis(self, millis):
+        if len(millis) != 4:
+            print("Expected 4 bytes of data returned. Got: " + str(len(millis)))
+           # raise PacketError("Expected 4 bytes of time returned. Got: " + str(len(data)))
+        else:
+            self._millis = self.bytesToFloat(millis, 0)
+
 class dcmotor(simpledevice):
 
     def __init__(self):
@@ -208,4 +294,7 @@ class dcmotor(simpledevice):
         self.port.sendRequest(requestpacket(self.index, action.RUN, self.device, self.port.id, data= struct.pack("1h",0)))
 
     def parseData(self, data):
+        return False
+
+    def parseMillis(self, data):
         return False
