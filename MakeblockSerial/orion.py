@@ -26,7 +26,12 @@ class serialReader(threading.Thread):
             lineMap = map(ord, line)
             if str(lineMap) != '[255, 85, 13, 10]' :    # don't show acks (without data)
                 log.debug('Data received: ' +  str(lineMap))
-            self.dataHandler(lineMap)
+            if str(lineMap)[-7:] == '13, 10]' :    # process if the string's properly terminated
+                self.dataHandler(lineMap)
+            else:
+                log.debug('Received unterminated string: ' +  str(lineMap))
+
+            
 
     def stop(self):
         self.__doRead = False
@@ -51,7 +56,7 @@ class board():
 
         whichPort = ''
         if sys.platform == 'win32':   # works on 64-bit systems, too, at least on python27
-            whichPort = 'COM11'
+            whichPort = 'COM5'
         elif sys.platform == 'linux2':  # Raspberry or linux box  
             whichPort = '/dev/ttyUSB0'
         elif sys.platform == 'darwin':  # Mac 

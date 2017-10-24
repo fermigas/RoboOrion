@@ -3,15 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{48ed421e-9c1c-4f33-900a-02d780508bf9}</ProjectGuid>
+    <ProjectGuid>{e504b454-9ded-4d59-a4f4-28e3be4c2871}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>AutoD.py</StartupFile>
-    <SearchPath>..\makeblock-serial</SearchPath>
+    <StartupFile>module1.py</StartupFile>
+    <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId />
+    <Name>makeblockserial</Name>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -19,19 +20,14 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AutoB.py" />
-    <Compile Include="AutoC.py" />
-    <Compile Include="AutoD.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AutonomyA.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MakeblockSerial\makeblockserial.pyproj">
-      <Name>makeblockserial</Name>
-      <Project>{e504b454-9ded-4d59-a4f4-28e3be4c2871}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <Compile Include="config.py" />
+    <Compile Include="demo.py" />
+    <Compile Include="devices.py" />
+    <Compile Include="module1.py" />
+    <Compile Include="orion.py" />
+    <Compile Include="packets.py" />
+    <Compile Include="test.py" />
+    <Compile Include="testserial.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>

@@ -80,6 +80,7 @@
     <ClInclude Include="__vm\.OrionFirmware.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MillisFirmware.ino" />
     <None Include="millis_orion_firmware.ino" />
     <None Include="orion_firmware.ino" />
     <None Include="rpi2-firmware.ino" />
